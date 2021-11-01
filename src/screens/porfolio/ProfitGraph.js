@@ -1,12 +1,10 @@
-import React, { Profiler } from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import React from 'react'
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 const ProfitGraph = () => {
     return (
-        <View>
-            <Text>Bezier Line Chart</Text>
-            
+        <View style={{ flex: 1, marginVertical: 15, }}>            
             <LineChart
                 data={{
                     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],

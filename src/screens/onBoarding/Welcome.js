@@ -38,7 +38,6 @@ export default function Welcome(props) {
                     </TouchableOpacity>
                 </View>
             </View>
-                     
         </Container>
     );
 }

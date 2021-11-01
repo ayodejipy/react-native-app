@@ -5,13 +5,36 @@ import { StatusBar } from "react-native";
 const paddingTop = StatusBar.currentHeight + 'px';
 
 export const Container = styled.View`
-    font-family: 'SofiaPro-Regular';
+    /* font-family: 'SofiaPro-Regular'; */
     flex: 1;
     flex-direction: column;
     justify-content: flex-start;
-    background-color: linear-gradient(332deg, rgba(2,2,8,1) 0%, rgba(6,6,10,1) 45%, rgba(17,20,20,1) 96%);
+    background-color: #040f28;
     color: #fff;
     height: 100%;
     padding-top: ${paddingTop};
     /* padding: 0 25px; */
+`
+
+export const PortfolioSummary = styled.View`
+    background-color: #c3841c;
+    border-radius: 8px;
+    flex: 1;
+    height: 130px;
+    margin-right: 10px;
+    margin-left: 10px;
+    /* flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+    
+    
+    :first-child {
+        margin-left: 0;
+        background-color: #000;
+    }
+    :last-child {
+        margin-right: 0;
+    }
+    :nth-child() {
+    }
 `

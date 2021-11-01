@@ -1,46 +1,87 @@
-import { rosybrown } from 'color-name';
-import React from 'react'
-import { Text, View, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native';
+import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
-import ProfitGraph from './ProfitGraph';
 import Transaction from '../../components/portfolio.js/transaction';
+import { TransactionLists, AccountBalances } from '../../utils/data';
+import PortfolioBalance from './Balances';
 
 const Portfolio = () => {
+    const navigation = useNavigation();
+    const [greeting, setGreeting ] = useState("Wash your hands, use your mask!")
+    
+    const handleTimeReport = () => {
+        const date = new Date()
+        const time = date.getHours();
+        if(time < 12) {
+            setGreeting("Beautiful morning, innit!")
+            return
+        }
+        if(time > 12 ) {
+            setGreeting("Good Afternoon, let's go have lunch!!!")
+            return 
+        }
+        setGreeting("Don't forget to wash your hands.")
+    }
+    
+    const renderTransactions = ({ item }) => {
+        return (
+            <Transaction transaction={item} />
+        )
+    }
+    
+    useEffect(() => {
+        handleTimeReport()
+    }, [])
+    
     return (
         <Container>
             <View style={styles.profileBody}>
-                <Image style={styles.profileImage} source={require('../../../assets/images/pattern-1.jpg')} />
-            </View>
-            <View style={{ marginHorizontal: 18, }}>
-                <View style={styles.portfolioSumary}>
-                    <Text style={styles.heading}>My Portfolio</Text>
-                    
-                    <View style={styles.portfolioDetails}>
-                        <Text style={styles.smallHeading}>Total Balance</Text>
-                        <Text style={styles.portfolioAmount}>$2,442</Text>
-                        
-                        <View style={styles.roiBody}>
-                            <Text style={styles.roiPercent}>+0,36 % </Text>
-                            <Text style={styles.roiAmount}>($ 9,04)</Text>
-                        </View>
-                    </View>
+                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                    <Image style={styles.profileImage} source={require('../../../assets/images/pattern-1.jpg')} />                    
+                </TouchableOpacity>
+                <View style={{ flex: 1, marginLeft: 10,}}>
+                    <Text style={{ color: '#fff', fontSize: 18, fontWeight: '800', fontFamily: 'SourceSansPro_700Bold', }}>Welcome, Ossai</Text>
+                    <Text style={{ color: '#fff', fontSize: 12, textTransform: 'lowercase', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
                 </View>
             </View>
-            <View style={styles.recentTransactions}>
-                <Text style={styles.transactionTitle}>Recent Transactions</Text>
-                <View style={{ marginVertical: 10, }}>
-                    <Transaction />
-                </View>
+            <View style={{ marginHorizontal: 10, }}>
+                <Text style={styles.heading}>My Portfolio</Text>
+                
+                <FlatList 
+                    data={AccountBalances}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => <PortfolioBalance item={item} /> }
+                    horizontal
+                    showsHorizontalScrollIndicator
+                    pagingEnabled={true}
+                    bounces={false}
+                    disableIntervalMomentum
+                />
+                
             </View>
             
-            <View style={{ marginHorizontal: 10 }}>
-                <ProfitGraph />
-            </View>
-            <View>
-                <Text style={styles.text}>
-                    Portfolio Page
-                </Text>
-            </View>
+            <ScrollView style={{ marginTop: 30 }}>
+                <SafeAreaView style={styles.recentTransactions}>
+                    <Text style={styles.transactionTitle}>Recent Transactions</Text>
+                    <SafeAreaView style={{ marginVertical: 20, }}>
+                        <FlatList 
+                            data={TransactionLists}
+                            renderItem={renderTransactions}
+                            keyExtractor={item => item.id}                            
+                        />
+                    </SafeAreaView>
+                </SafeAreaView>
+                
+                {/* <SafeAreaView style={{ marginHorizontal: 10 }}>
+                    <ProfitGraph />
+                </SafeAreaView> */}
+                {/* <SafeAreaView>
+                    <Text style={styles.text}>
+                        Portfolio Page
+                    </Text>
+                </SafeAreaView> */}
+            </ScrollView>
         </Container>
     )
 }
@@ -61,11 +102,14 @@ const styles = StyleSheet.create({
         // backgroundColor: '#fff',
         flexBasis: 100,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
         width: '100%',
         height: 55,
         padding: 12,
         paddingTop: 45,
+        position: 'relative',
+        marginBottom: 45,
     },
     profileImage: {
         width: 40,
@@ -75,7 +119,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     portfolioSumary: {
-        backgroundColor: '#f1a932',
+        backgroundColor: '#c3841c',
         borderRadius: 8,
         width: '100%',
         // height: 65,
@@ -86,6 +130,7 @@ const styles = StyleSheet.create({
         marginVertical: 35,
     },
     heading: {
+        fontFamily:  'SourceSansPro_600SemiBold',
         fontWeight: '600',
         fontSize: 16,
         color: '#ecebf4',
@@ -105,6 +150,7 @@ const styles = StyleSheet.create({
     },
     portfolioAmount: {
         color: '#fff',
+        fontFamily: 'SourceSansPro_700Bold',
         textAlign: 'center',
         fontSize: 40,
         fontWeight: '800',
@@ -114,19 +160,24 @@ const styles = StyleSheet.create({
         flexBasis: 100,
         flexDirection: 'row',
         justifyContent: 'center',
+        fontFamily: 'SourceSansPro_400Regular,'
     },
     roiPercent: {
-        color: '#00953b',
+        color: '#03b148',
+        fontFamily: 'SourceSansPro_400Regular,'
     },
     roiAmount: {
         color: '#fff',
     },
     recentTransactions: {
+        flex: 1,
         flexBasis: 100,
         paddingHorizontal: 20,
-        backgroundColor: '#D69934',
+        // backgroundColor: '#D69934',
     },
     transactionTitle: {
         color: '#fff',
+        fontSize: 12,
+        textTransform: 'uppercase',
     }
 })

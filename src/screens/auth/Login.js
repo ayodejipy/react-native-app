@@ -1,28 +1,36 @@
-import React from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, Image, ImageBackground, ScrollView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Container } from '../../../assets/styles/styles';
 
 const Login = () => {
+    const navigation = useNavigation();
+    const [ email, onChangeEmail ] = useState('');
+    const [ password, onChangePassword ] = useState('');
+    
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>
-                Login Page
-            </Text>
-        </View>
+        <Container>
+            <StatusBar style='auto' />
+            <SafeAreaView style={{ flex: 1, }}>
+                <ScrollView>
+                    <View style={styles.patternWrap}>
+                        <ImageBackground style={styles.pattern} resizeMode="cover" source={require('../../../assets/images/pattern-1.jpg')} />
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </Container>
     )
 }
 
 export default Login;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#fff',
+    patternWrap: {
+        width: '100%',
+        height: '48%',
     },
-    text: {
-      fontWeight: "600",
-      fontSize: 24,
+    pattern: {
+        flex: 1,
     },
 })
