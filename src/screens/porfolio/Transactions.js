@@ -1,16 +1,14 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import listDetails from '../../components/portfolio.js/listDetails';
 import { Ionicons } from '@expo/vector-icons';
 
-const SinglePortfolio = () => {
+const Transactions = () => {
     const navigation = useNavigation();
-    const tabHeight = useBottomTabBarHeight();
     return (
-        <Container tabHeight={tabHeight}>
+        <Container>
             <SafeAreaView style={{ flex: 1,}}>
                 <View style={styles.blockHeading}>
                     {/* <View style={styles.backBtnWrap}>
@@ -18,7 +16,7 @@ const SinglePortfolio = () => {
                             <Ionicons name="md-arrow-back-outline" color="rgba(255, 255, 255, .9)" size={20} />
                         </TouchableOpacity>                    
                     </View> */}
-                    <Text style={styles.blockTitle}>My Stock</Text>
+                    <Text style={styles.blockTitle}>Transactions</Text>
                 </View>
                 
                 <ScrollView>
@@ -39,54 +37,14 @@ const SinglePortfolio = () => {
                             </View>
                         </View>
                     </View>
-                    
-                    <SafeAreaView style={styles.actionButtons}>
-                        <View style={styles.buyWrap}>
-                            <TouchableOpacity>
-                                <Text style={styles.buyBtn}>Buy</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.sellWrap}>
-                            <TouchableOpacity>
-                                <Text style={styles.sellBtn}>Sell</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </SafeAreaView>
-                    
-                    <SafeAreaView style={styles.details}>
-                        <Text style={styles.detailstitle}>Portfolio Details</Text>
-                        <View style={{ flex: 1, marginVertical: 10, }}>
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.detailsHeading}>Total Earnings</Text>
-                                <Text style={styles.detailsText}>$0.28</Text>
-                            </View>
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.detailsHeading}>Current Earnings</Text>
-                                <Text style={styles.detailsText}>$0.28</Text>
-                            </View>
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.detailsHeading}>Deposit Value($)</Text>
-                                <Text style={styles.detailsText}>$0.28</Text>
-                            </View>
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.detailsHeading}>Purchased</Text>
-                                <Text style={styles.detailsText}>23 October, 2021</Text>
-                            </View>
-                        </View>
-                    </SafeAreaView>
-                
-                
-                    {/* <SafeAreaView style={{ flex: 1, flexBasis: 140, marginVertical: 25, paddingHorizontal: 10 }}>
-                        <ProfitGraph />
-                    </SafeAreaView> */}
-                                        
+                            
                 </ScrollView>
             </SafeAreaView>
         </Container>
     )
 }
 
-export default SinglePortfolio;
+export default Transactions;
 
 const styles = StyleSheet.create({
     container: {

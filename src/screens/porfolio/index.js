@@ -1,14 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Animated } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import Transaction from '../../components/portfolio.js/transaction';
 import { TransactionLists, AccountBalances } from '../../utils/data';
 import PortfolioBalance from './Balances';
+import Paginator from './Pagination';
 
 const Portfolio = () => {
+    const tabHeight = useBottomTabBarHeight();
     const navigation = useNavigation();
     const [greeting, setGreeting ] = useState("Wash your hands, use your mask!")
+    
+    // scrolling home 
+    const slideRef = useRef(null)
+    const [ index, setCurrentIndex ] = useState(0)
+    const scrollX  = useRef(new Animated.Value(0)).current;
+    
+    const balanceCardChanges = useRef(({viewableItems}) => {
+        setCurrentIndex(viewableItems[0].index)
+    }).current
+    
+    const changeIndex = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
     
     const handleTimeReport = () => {
         const date = new Date()
@@ -35,7 +49,7 @@ const Portfolio = () => {
     }, [])
     
     return (
-        <Container>
+        <Container tabHeight={tabHeight}>
             <View style={styles.profileBody}>
                 <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <Image style={styles.profileImage} source={require('../../../assets/images/pattern-1.jpg')} />                    
@@ -53,18 +67,26 @@ const Portfolio = () => {
                     keyExtractor={item => item.id}
                     renderItem={({item}) => <PortfolioBalance item={item} /> }
                     horizontal
-                    showsHorizontalScrollIndicator
+                    showsHorizontalScrollIndicator={false}
                     pagingEnabled={true}
                     bounces={false}
-                    disableIntervalMomentum
+                    onScroll={ Animated.event([{ nativeEvent: {contentOffset: { x: scrollX }} }], {
+                        useNativeDriver: false
+                    }) }
+                    scrollEventThrottle={32}
+                    onViewableItemsChanged={balanceCardChanges}
+                    viewabilityConfig={changeIndex}
+                    ref={slideRef}
                 />
+                
+                <Paginator data={AccountBalances} scrollX={scrollX} />
                 
             </View>
             
-            <ScrollView style={{ marginTop: 30 }}>
+            <View style={{ marginTop: 20 }}>
                 <SafeAreaView style={styles.recentTransactions}>
                     <Text style={styles.transactionTitle}>Recent Transactions</Text>
-                    <SafeAreaView style={{ marginVertical: 20, }}>
+                    <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
                         <FlatList 
                             data={TransactionLists}
                             renderItem={renderTransactions}
@@ -81,7 +103,7 @@ const Portfolio = () => {
                         Portfolio Page
                     </Text>
                 </SafeAreaView> */}
-            </ScrollView>
+            </View>
         </Container>
     )
 }

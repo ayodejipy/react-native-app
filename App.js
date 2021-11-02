@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppStackNavigator from './src/navigator/Navigator';
+import AppTabNavigator from './src/navigator/TabNavigator';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
@@ -19,6 +20,7 @@ import {
   SourceSansPro_900Black,
   SourceSansPro_900Black_Italic,
 } from '@expo-google-fonts/source-sans-pro';
+
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -41,8 +43,9 @@ export default function App() {
   } else {
     return (
       <NavigationContainer>
-        <AppStackNavigator />      
         <StatusBar />
+        <AppStackNavigator />
+        {/* <AppTabNavigator /> */}
       </NavigationContainer>
     );
     

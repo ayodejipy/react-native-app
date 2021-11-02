@@ -11,7 +11,7 @@ export default function Welcome(props) {
     const [password, onChangePassword ] = useState('')
     
     const handleLoginPress = () => {
-        navigation.navigate("Portfolio");
+        navigation.navigate("Login");
     }
     
     return (
@@ -26,7 +26,7 @@ export default function Welcome(props) {
                 <Text style={styles.subHeading}>Make money investments crystal clear to you</Text>
             </View>
             <View style={styles.actionArea}>
-                <TouchableOpacity style={styles.signupBtn}>
+                <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
                     <Text style={styles.buttonText}>Create an account</Text>
                 </TouchableOpacity>
                 

@@ -13,11 +13,11 @@ const Profile = () => {
         <Container>
             <SafeAreaView style={{ flex: 1,}}>
                 <View style={styles.blockHeading}>
-                    <View style={styles.backBtnWrap}>
+                    {/* <View style={styles.backBtnWrap}>
                         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
                             <Ionicons name="md-close-outline" color="rgba(255, 255, 255, .9)" size={20} />
                         </TouchableOpacity>                    
-                    </View>
+                    </View> */}
                     <Text style={styles.blockTitle}>Profile</Text>
                 </View>
                 
@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
         flexBasis: 80,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         width: '100%',
         // height: 55,
-        paddingVertical: 40,
+        paddingTop: 5,
         paddingHorizontal: 12,
         position: 'relative',
     },
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         position: 'relative',
         marginBottom: 30,
-        borderWidth: 1,
-        // borderBottomColor: 'rgba(78, 79, 80, 0.3)',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(78, 79, 80, 0.3)',
         paddingBottom: 16,
     },
     profileImage: {

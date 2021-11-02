@@ -13,11 +13,7 @@ const Login = () => {
         <Container>
             <StatusBar style='auto' />
             <SafeAreaView style={{ flex: 1, }}>
-                <ScrollView>
-                    <View style={styles.patternWrap}>
-                        <ImageBackground style={styles.pattern} resizeMode="cover" source={require('../../../assets/images/pattern-1.jpg')} />
-                    </View>
-                </ScrollView>
+                <Text style={styles.pattern}>Omo x333</Text>
             </SafeAreaView>
         </Container>
     )
@@ -31,6 +27,6 @@ const styles = StyleSheet.create({
         height: '48%',
     },
     pattern: {
-        flex: 1,
+        color: '#fff',
     },
 })

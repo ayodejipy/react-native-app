@@ -1,8 +1,10 @@
 import styled from "styled-components/native";
 import { StatusBar } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 // Set top padding of container to status bar's height
 const paddingTop = StatusBar.currentHeight + 'px';
+
 
 export const Container = styled.View`
     /* font-family: 'SofiaPro-Regular'; */
@@ -13,6 +15,7 @@ export const Container = styled.View`
     color: #fff;
     height: 100%;
     padding-top: ${paddingTop};
+    margin-bottom: ${({ tabHeight }) => tabHeight ? tabHeight + 'px' : '0'};
     /* padding: 0 25px; */
 `
 
