@@ -45,10 +45,18 @@ const Login = () => {
                                 placeholderTextColor="#828690"
                             />
                         </View>
+                        
+                        <View style={styles.loginWrap}>
+                            {/* <Text style={{ color: '#c2c2c2', marginRight: 2, }}> Do not have an account? </Text> */}                                
+                            <TouchableOpacity onPress={() => handleLoginPress()}>
+                                <Text style={styles.loginText}>Forgot Password?</Text>
+                            </TouchableOpacity>
+                        </View>
+                        
                         <View style={styles.actionArea}>
                             <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
                                 <Text style={styles.buttonText}>Log in</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity>                            
                         </View>
                     </View>
                 </View>
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
     },
     actionArea: {
         width: '100%',
-        marginTop: 14,
+        marginTop: 25,
         // flex: 1,
     },
     signupBtn: {
@@ -156,4 +164,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
     },
+    loginWrap: {
+        flexDirection: 'row',
+        // justifyContent: 'center',
+    },
+    loginText: {
+        color: '#c5bee4',
+        fontFamily: 'SourceSansPro_400Regular',
+        fontWeight: "700"
+    }
 })
