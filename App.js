@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import AppStackNavigator from './src/navigator/Navigator';
-import AppTabNavigator from './src/navigator/TabNavigator';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
