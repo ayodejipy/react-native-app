@@ -33,6 +33,8 @@ const Login = () => {
                             <TextInput 
                                 style={styles.inputBox}
                                 keyboardType="email-address"
+                                placeholder="Enter your email address"
+                                placeholderTextColor="#828690"
                             />
                         </View>
                         <View style={styles.inputWrap}>
@@ -40,6 +42,7 @@ const Login = () => {
                             <TextInput 
                                 style={styles.inputBox} 
                                 placeholder="*********"
+                                placeholderTextColor="#828690"
                             />
                         </View>
                         <View style={styles.actionArea}>
@@ -118,11 +121,12 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     label: {
-        color: '#fff',
+        color: '#ccc',
         fontFamily: 'SourceSansPro_700Bold',
         marginBottom: 10,
     },
     inputBox: {
+        fontFamily: 'SourceSansPro_400Regular',
         color: '#fff',
         borderWidth: 1,
         borderColor: 'rgba(78, 79, 80, 0.8)',
@@ -137,8 +141,8 @@ const styles = StyleSheet.create({
         // flex: 1,
     },
     signupBtn: {
-        backgroundColor: '#c5bee4',
-        color: '#25242b',
+        backgroundColor: '#c3841c',
+        color: '#f5f6f7',
         fontWeight: '600',
         paddingVertical: 16,
         paddingHorizontal: 60,
@@ -147,8 +151,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonText: {
-        color: '#25242b',
-        fontWeight: '700',
+        color: '#f5f6f7',
+        fontFamily: 'SourceSansPro_700Bold',
         fontSize: 16,
         textAlign: 'center',
     },

@@ -70,11 +70,11 @@ const styles = StyleSheet.create({
         // flexBasis: 100,
         flexDirection: 'row',
         justifyContent: 'center',
-        fontFamily: 'SourceSansPro_400Regular,'
+        fontFamily: 'SourceSansPro_400Regular',
     },
     roiPercent: {
         color: '#03b148',
-        fontFamily: 'SourceSansPro_400Regular,'
+        fontFamily: 'SourceSansPro_400Regular',
     },
     roiAmount: {
         color: '#fff',

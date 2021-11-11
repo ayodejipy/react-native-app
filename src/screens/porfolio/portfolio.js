@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
         marginVertical: 40,
     },
     detailstitle: {
-        color: 'rgba(78, 79, 80, 0.98)',
+        color: '#f5f6f7',
         fontSize: 12.5,
         textTransform: 'uppercase',
         paddingBottom: 16,
@@ -249,9 +249,9 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     detailsHeading: {
-        color: 'rgba(78, 79, 80, 0.98)',
+        color: '#ccc',
     },
     detailsText: {
-        color: 'rgba(79, 80, 82, 1)',
+        color: '#ccc',
     },
 })
