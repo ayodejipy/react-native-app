@@ -31,7 +31,7 @@ export const PortfolioSummary = styled.View`
     justify-content: center; */
     
     
-    :first-child {
+    /* :first-child {
         margin-left: 0;
         background-color: #000;
     }
@@ -39,5 +39,5 @@ export const PortfolioSummary = styled.View`
         margin-right: 0;
     }
     :nth-child() {
-    }
+    } */
 `

@@ -5,6 +5,8 @@ import Welcome from '../screens/onBoarding/Welcome';
 import Login from '../screens/auth/Login';
 import onScreenIntroduction from '../screens/onBoarding';
 import Register from '../screens/auth/Register';
+import EditProfile from '../screens/user/EditProfile';
+import ChangePassword from '../screens/user/ChangePassword';
 
 import AppTabNavigator from './TabNavigator';
 
@@ -33,6 +35,8 @@ const AppStackNavigator = () => {
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="Portfolio" component={AppTabNavigator} />
+                <Stack.Screen name="EditProfile" component={EditProfile} />
+                <Stack.Screen name="ChangePassword" component={ChangePassword} />
                 
                 {/* <Stack.Screen name="SinglePortfolio" component={SinglePortfolio} />
                 <Stack.Screen name="Profile" component={Profile} 

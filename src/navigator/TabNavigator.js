@@ -6,6 +6,7 @@ import Portfolio from '../screens/porfolio';
 import SinglePortfolio from '../screens/porfolio/portfolio';
 import Transactions from '../screens/porfolio/Transactions';
 import Profile from '../screens/user';
+import EditProfile from '../screens/user/EditProfile';
 import { AntDesign, Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();

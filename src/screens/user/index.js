@@ -29,7 +29,7 @@ const Profile = () => {
                         
                         <View style={styles.profileDetails}>
                             <Text style={styles.blockTitle}>Ossai Emmanuel </Text>
-                            <TouchableOpacity style={styles.editWrap}>
+                            <TouchableOpacity style={styles.editWrap} onPress={() => navigation.navigate('EditProfile')}>
                                 <Text style={styles.editBtn}>Edit Profile</Text>
                             </TouchableOpacity>
                         </View>
@@ -38,8 +38,8 @@ const Profile = () => {
                     <SafeAreaView style={styles.details}>
                         <Text style={styles.detailstitle}>Account &amp; Security</Text>
                         <View style={{ flex: 1, marginVertical: 10, }}>
-                            <ListDetails title="Edit Profile" callback={() => navigation.navigate("Profile")} />
-                            <ListDetails title="Password Reset" callback={() => navigation.navigate("Profile")} />                            
+                            <ListDetails title="Edit Profile" callback={() => navigation.navigate("EditProfile")} />
+                            <ListDetails title="Password Reset" callback={() => navigation.navigate("ChangePassword")} />                            
                         </View>
                         <Text style={styles.detailstitle}>About &amp; Seventhcliff Resort</Text>
                         <View style={{ flex: 1, marginVertical: 0, }}>
@@ -114,11 +114,13 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
     },
     profileImage: {
+        alignSelf: 'flex-start',
+        alignContent: 'center',
         width: 90,
         height: 90,
         borderRadius: 50,
-        borderColor: '#fff',
-        borderWidth: 1,
+        // borderColor: '#fff',
+        // borderWidth: 1,
     },
     profileDetails: {
         width: 200,
