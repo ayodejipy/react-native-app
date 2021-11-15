@@ -26,7 +26,7 @@ export default function Welcome(props) {
                 <Text style={styles.subHeading}>Make money investments crystal clear to you</Text>
             </View>
             <View style={styles.actionArea}>
-                <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
+                <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Register')}>
                     <Text style={styles.buttonText}>Create an account</Text>
                 </TouchableOpacity>
                 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 
-const Login = () => {
+const Register = () => {
     const navigation = useNavigation();
     const [ email, onChangeEmail ] = useState('');
     const [ password, onChangePassword ] = useState('');
@@ -23,7 +23,7 @@ const Login = () => {
                 </View>
                 
                 <View style={styles.pageTitleWrap}>
-                    <Text style={styles.blockTitle}>Log in</Text>                    
+                    <Text style={styles.blockTitle}>Create an Account</Text>                    
                 </View>
                 
                 <ScrollView showsVerticalScrollIndicator={false}>                
@@ -31,52 +31,70 @@ const Login = () => {
                         behavior={Platform.OS === 'ios' ? 'padding' : 0}
                         style={{  flexDirection: 'column', height: '100%', }}
                     >
-                        <View style={styles.loginPageWrap}>                    
-                            <View style={styles.formWrapper}>
-                                <View style={styles.inputWrap}>
-                                    <Text style={styles.label}>Email Address</Text>
-                                    <TextInput 
-                                        style={styles.inputBox}
-                                        keyboardType="email-address"
-                                        placeholder="Email address"
-                                        placeholderTextColor="#828690"
-                                    />
+                        <View style={styles.registerPageWrap}>
+                                <View style={styles.formWrapper}>
+                                    <View style={styles.inputWrap}>
+                                        <Text style={styles.label}>Full Name</Text>
+                                        <TextInput 
+                                            style={styles.inputBox}
+                                            placeholder="Full name"
+                                            placeholderTextColor="#828690"
+                                        />
+                                    </View>
+                                    <View style={styles.inputWrap}>
+                                        <Text style={styles.label}>Phone Number</Text>
+                                        <TextInput 
+                                            style={styles.inputBox}
+                                            placeholder="Phone number"
+                                            placeholderTextColor="#828690"
+                                        />
+                                    </View>
+                                    <View style={styles.inputWrap}>
+                                        <Text style={styles.label}>Email Address</Text>
+                                        <TextInput 
+                                            style={styles.inputBox}
+                                            keyboardType="email-address"
+                                            placeholder="Email address"
+                                            placeholderTextColor="#828690"
+                                        />
+                                    </View>
+                                    <View style={styles.inputWrap}>
+                                        <Text style={styles.label}>Password</Text>
+                                        <TextInput 
+                                            style={styles.inputBox} 
+                                            placeholder="*********"
+                                            placeholderTextColor="#828690"
+                                        />
+                                    </View>
+                                    <View style={styles.inputWrap}>
+                                        <Text style={styles.label}>Referrer (optional)</Text>
+                                        <TextInput 
+                                            style={styles.inputBox} 
+                                            placeholder="Referrer's email"
+                                            placeholderTextColor="#828690"
+                                            keyboardType="email-address"
+                                        />
+                                    </View>
+                                    
+                                    <View style={styles.actionArea}>
+                                        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
+                                            <Text style={styles.buttonText}>Sign up</Text>
+                                        </TouchableOpacity>                            
+                                    </View>
                                 </View>
-                                <View style={styles.inputWrap}>
-                                    <Text style={styles.label}>Password</Text>
-                                    <TextInput 
-                                        style={styles.inputBox} 
-                                        placeholder="*********"
-                                        placeholderTextColor="#828690"
-                                    />
-                                </View>
-                                
-                                <View style={styles.loginWrap}>
-                                    {/* <Text style={{ color: '#c2c2c2', marginRight: 2, }}> Do not have an account? </Text> */}                                
-                                    <TouchableOpacity onPress={() => handleLoginPress()}>
-                                        <Text style={styles.loginText}>Forgot Password?</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                
-                                <View style={styles.actionArea}>
-                                    <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
-                                        <Text style={styles.buttonText}>Log in</Text>
-                                    </TouchableOpacity>                            
-                                </View>
-                            </View>
+                            <View style={styles.bottomSpace}></View>
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
-                <View style={styles.bottomSpace}></View>
             </SafeAreaView>
         </Container>
     )
 }
 
-export default Login;
+export default Register;
 
 const styles = StyleSheet.create({
-    loginPageWrap: {
+    registerPageWrap: {
         flex: 1,
         // paddingHorizontal: 18,
         // borderColor: '#fff',
@@ -84,10 +102,10 @@ const styles = StyleSheet.create({
         marginVertical: 45,
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        height: '80%',
+        height: '96%',
     },
     bottomSpace: {
-        height: 180,
+        height: 220,
     },
     blockHeading: {
         // backgroundColor: '#fff',
@@ -176,11 +194,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
     },
-    loginWrap: {
+    registerWrap: {
         flexDirection: 'row',
         // justifyContent: 'center',
     },
-    loginText: {
+    registerText: {
         color: '#c5bee4',
         fontFamily: 'SourceSansPro_400Regular',
         fontWeight: "700"

@@ -4,9 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Welcome from '../screens/onBoarding/Welcome';
 import Login from '../screens/auth/Login';
 import onScreenIntroduction from '../screens/onBoarding';
-import Portfolio from '../screens/porfolio';
-import SinglePortfolio from '../screens/porfolio/portfolio';
-import Profile from '../screens/user';
+import Register from '../screens/auth/Register';
 
 import AppTabNavigator from './TabNavigator';
 
@@ -33,6 +31,7 @@ const AppStackNavigator = () => {
                 <Stack.Screen name="OnBoading" component={onScreenIntroduction} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="Portfolio" component={AppTabNavigator} />
                 
                 {/* <Stack.Screen name="SinglePortfolio" component={SinglePortfolio} />

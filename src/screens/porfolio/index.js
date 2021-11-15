@@ -59,6 +59,7 @@ const Portfolio = () => {
                     <Text style={{ color: '#fff', fontSize: 12, textTransform: 'lowercase', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
                 </View>
             </View>
+            
             <View style={{ marginHorizontal: 10, }}>
                 <Text style={styles.heading}>My Portfolio</Text>
                 
@@ -79,8 +80,7 @@ const Portfolio = () => {
                     ref={slideRef}
                 />
                 
-                <Paginator data={AccountBalances} scrollX={scrollX} />
-                
+                <Paginator data={AccountBalances} scrollX={scrollX} />                
             </View>
             
             <View style={{ marginTop: 20 }}>
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
         flexBasis: 100,
         flexDirection: 'row',
         justifyContent: 'center',
-        fontFamily: 'SourceSansPro_400Regular,'
+        fontFamily: 'SourceSansPro_400Regular',
     },
     roiPercent: {
         color: '#03b148',
-        fontFamily: 'SourceSansPro_400Regular,'
+        fontFamily: 'SourceSansPro_400Regular',
     },
     roiAmount: {
         color: '#fff',
