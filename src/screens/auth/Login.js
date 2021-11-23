@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuthContext } from '../../Hook/useAuthContext';
 
 const Login = () => {
     const navigation = useNavigation();
     const [ email, onChangeEmail ] = useState('');
     const [ password, onChangePassword ] = useState('');
+    const { auth } = useAuthContext();
+    
+    const handleLoginPress = async () => {
+        await auth.handleLogin({
+           username: 'dominn@gmail.com',
+           password: '000000@!!!234',
+        })
+        navigation.navigate('Portfolio')
+    }
     
     return (
         <Container>
@@ -59,7 +69,7 @@ const Login = () => {
                                 </View>
                                 
                                 <View style={styles.actionArea}>
-                                    <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
+                                    <TouchableOpacity style={styles.signupBtn} onPress={() => handleLoginPress()}>
                                         <Text style={styles.buttonText}>Log in</Text>
                                     </TouchableOpacity>                            
                                 </View>

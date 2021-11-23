@@ -19,7 +19,8 @@ import {
   SourceSansPro_900Black,
   SourceSansPro_900Black_Italic,
 } from '@expo-google-fonts/source-sans-pro';
-
+// import context
+import UserProvider from './src/context/context';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -41,20 +42,22 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      <NavigationContainer 
-        theme={{
-          dark: true,
-          colors: {
-            ...DefaultTheme.colors,
-            background: '#040f28',
-            // card: '#mycolor',
-          },
-        }}
-      >
-        <StatusBar />
-        <AppStackNavigator />
-        {/* <AppTabNavigator /> */}
-      </NavigationContainer>
+      <UserProvider>
+        <NavigationContainer 
+          theme={{
+            dark: true,
+            colors: {
+              ...DefaultTheme.colors,
+              background: '#040f28',
+              // card: '#mycolor',
+            },
+          }}
+        >
+          <StatusBar />
+          <AppStackNavigator />
+          {/* <AppTabNavigator /> */}
+        </NavigationContainer>
+      </UserProvider>
     );
     
   }

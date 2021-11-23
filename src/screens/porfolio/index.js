@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Animated } from 'react-native';
@@ -7,11 +7,16 @@ import Transaction from '../../components/portfolio.js/transaction';
 import { TransactionLists, AccountBalances } from '../../utils/data';
 import PortfolioBalance from './Balances';
 import Paginator from './Pagination';
+import { userContext } from '../../context/context';
 
 const Portfolio = () => {
     const tabHeight = useBottomTabBarHeight();
     const navigation = useNavigation();
     const [greeting, setGreeting ] = useState("Wash your hands, use your mask!")
+    const [ user, setUser ] = useContext(userContext);
+    
+    setUser("I am black ");
+    console.log({user})
     
     // scrolling home 
     const slideRef = useRef(null)
@@ -56,7 +61,7 @@ const Portfolio = () => {
                 </TouchableOpacity>
                 <View style={{ flex: 1, marginLeft: 10,}}>
                     <Text style={{ color: '#fff', fontSize: 18, fontWeight: '800', fontFamily: 'SourceSansPro_700Bold', }}>Welcome, Ossai</Text>
-                    <Text style={{ color: '#fff', fontSize: 12, textTransform: 'lowercase', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
+                    <Text style={{ color: '#fff', fontSize: 12, textTransform: 'none', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
                 </View>
             </View>
             
