@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Animated } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
-import Transaction from '../../components/portfolio.js/transaction';
+import Transaction from '../../components/portfolio.js/Transaction';
 import { TransactionLists, AccountBalances } from '../../utils/data';
 import PortfolioBalance from './Balances';
 import Paginator from './Pagination';
-import { userContext } from '../../context/context';
+import { useAuthContext } from '../../Hook/useAuthContext';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const Portfolio = () => {
     const tabHeight = useBottomTabBarHeight();
     const navigation = useNavigation();
     const [greeting, setGreeting ] = useState("Wash your hands, use your mask!")
-    const [ user, setUser ] = useContext(userContext);
-    
-    setUser("I am black ");
-    console.log({user})
+    const { userData } = useAuthContext();
+    console.log(userData);
     
     // scrolling home 
     const slideRef = useRef(null)
@@ -49,66 +49,89 @@ const Portfolio = () => {
         )
     }
     
+    const loadInput = (typeOfAction) => {
+        navigation.navigate('BuyCoin', {
+            actionType: typeOfAction
+        })
+    }
+    
     useEffect(() => {
         handleTimeReport()
     }, [])
     
     return (
         <Container tabHeight={tabHeight}>
-            <View style={styles.profileBody}>
-                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <Image style={styles.profileImage} source={require('../../../assets/images/pattern-1.jpg')} />                    
-                </TouchableOpacity>
-                <View style={{ flex: 1, marginLeft: 10,}}>
-                    <Text style={{ color: '#fff', fontSize: 18, fontWeight: '800', fontFamily: 'SourceSansPro_700Bold', }}>Welcome, Ossai</Text>
-                    <Text style={{ color: '#fff', fontSize: 12, textTransform: 'none', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
+            {/* <ScrollView style={styles.scrollview}> */}
+                <View style={styles.profileBody}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                        <Image style={styles.profileImage} source={require('../../../assets/images/pattern-1.jpg')} />                    
+                    </TouchableOpacity>
+                    <View style={{ flex: 1, marginLeft: 10,}}>
+                        <Text style={{ color: '#fff', fontSize: 18, fontWeight: '800', fontFamily: 'SourceSansPro_700Bold', }}>Welcome, {userData}</Text>
+                        <Text style={{ color: '#fff', fontSize: 12, textTransform: 'none', fontFamily: 'SourceSansPro_400Regular', }}>{greeting}</Text>                    
+                    </View>
                 </View>
-            </View>
+                <View style={{ marginHorizontal: 10, }}>
+                    <Text style={styles.heading}>My Portfolio</Text>
+                    
+                    <FlatList 
+                        data={AccountBalances}
+                        keyExtractor={item => item.id}
+                        renderItem={({item}) => <PortfolioBalance item={item} /> }
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        pagingEnabled={true}
+                        bounces={false}
+                        onScroll={ Animated.event([{ nativeEvent: {contentOffset: { x: scrollX }} }], {
+                            useNativeDriver: false
+                        }) }
+                        scrollEventThrottle={32}
+                        onViewableItemsChanged={balanceCardChanges}
+                        viewabilityConfig={changeIndex}
+                        ref={slideRef}
+                    />
+                    
+                    <Paginator data={AccountBalances} scrollX={scrollX} />                
+                </View>
             
-            <View style={{ marginHorizontal: 10, }}>
-                <Text style={styles.heading}>My Portfolio</Text>
-                
-                <FlatList 
-                    data={AccountBalances}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => <PortfolioBalance item={item} /> }
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    pagingEnabled={true}
-                    bounces={false}
-                    onScroll={ Animated.event([{ nativeEvent: {contentOffset: { x: scrollX }} }], {
-                        useNativeDriver: false
-                    }) }
-                    scrollEventThrottle={32}
-                    onViewableItemsChanged={balanceCardChanges}
-                    viewabilityConfig={changeIndex}
-                    ref={slideRef}
-                />
-                
-                <Paginator data={AccountBalances} scrollX={scrollX} />                
-            </View>
+                <View style={{ marginHorizontal: 14, flex: 1, flexShrink: 1, }}>
+                    <TouchableOpacity onPress={ () => loadInput('self-finance')}>
+                        <Text style={[styles.heading, { marginBottom: 6 }]}>Self Finance</Text>
+                        <View style={styles.financeTab}>
+                            <View style={{ marginRight: 13 }}>
+                                <MaterialIcons name="attach-money" color="rgba(255, 255, 255, .5)" size={20} />
+                            </View>
+                            <View style={{ flexShrink: 1, }}>
+                                <Text style={styles.finTitle}>Don't have $1000? Buy your modi-bits in bits! </Text>
+                                
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             
-            <View style={{ marginTop: 20 }}>
-                <SafeAreaView style={styles.recentTransactions}>
-                    <Text style={styles.transactionTitle}>Recent Transactions</Text>
-                    <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
-                        <FlatList 
-                            data={TransactionLists}
-                            renderItem={renderTransactions}
-                            keyExtractor={item => item.id}                            
-                        />
+                <View style={{ marginTop: 10, height: 185,}}>
+                    <SafeAreaView style={styles.recentTransactions}>
+                        <Text style={styles.transactionTitle}>Recent Transactions</Text>
+                        <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
+                            <FlatList 
+                                data={TransactionLists}
+                                renderItem={renderTransactions}
+                                keyExtractor={item => item.id}
+                                contentContainerStyle={{ paddingBottom: 65 }}               
+                            />
+                        </SafeAreaView>
                     </SafeAreaView>
-                </SafeAreaView>
-                
-                {/* <SafeAreaView style={{ marginHorizontal: 10 }}>
-                    <ProfitGraph />
-                </SafeAreaView> */}
-                {/* <SafeAreaView>
-                    <Text style={styles.text}>
-                        Portfolio Page
-                    </Text>
-                </SafeAreaView> */}
-            </View>
+                    
+                    {/* <SafeAreaView style={{ marginHorizontal: 10 }}>
+                        <ProfitGraph />
+                    </SafeAreaView> */}
+                    {/* <SafeAreaView>
+                        <Text style={styles.text}>
+                            Portfolio Page
+                        </Text>
+                    </SafeAreaView> */}
+                </View>
+            {/* </ScrollView> */}
         </Container>
     )
 }
@@ -116,6 +139,14 @@ const Portfolio = () => {
 export default Portfolio;
 
 const styles = StyleSheet.create({
+    scrollview: {
+        height: '100%',
+        width: '100%',
+        // borderWidth: 5,
+        // borderRadius: 5,
+        // borderColor: 'black',
+        // backgroundColor: 'lightblue'
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -136,7 +167,7 @@ const styles = StyleSheet.create({
         padding: 12,
         paddingTop: 45,
         position: 'relative',
-        marginBottom: 45,
+        marginBottom: 30,
     },
     profileImage: {
         width: 40,
@@ -182,6 +213,27 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: '800',
         letterSpacing: 1,
+    },
+    financeTab: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: 'rgba(91, 82, 136, 0.7)',
+        borderRadius: 4,
+        paddingHorizontal: 12,
+        paddingVertical: 20,
+        marginVertical: 4,
+    },
+    finTitle: {
+        fontSize: 16,
+        color: '#fff',
+        fontFamily: 'SourceSansPro_400Regular',
+        // marginBottom: 5,
+    },
+    financeDesc: {
+        color: '#b2afbd',
+        fontSize: 14,
+        fontFamily: 'SourceSansPro_400Regular',
     },
     roiBody: {
         flexBasis: 100,

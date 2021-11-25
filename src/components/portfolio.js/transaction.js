@@ -6,6 +6,7 @@ const Transaction = ({ transaction }) => {
     const icon = transaction.success ? "md-checkmark" : "md-close-outline"
     const color = transaction.success ? {backgroundColor: 'rgba(18, 223, 91, 0.15)', color: 'rgba(75, 241, 149, 0.7)',} : {backgroundColor: 'rgba(223, 18, 18, 0.22)', color: 'rgba(255, 10, 10, 0.67)',}
     const sign = transaction.sold ? "-" : "+"
+    
     return (
         <View style={styles.container}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>

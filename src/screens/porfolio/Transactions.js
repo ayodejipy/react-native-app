@@ -1,12 +1,58 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
-import listDetails from '../../components/portfolio.js/listDetails';
-import { Ionicons } from '@expo/vector-icons';
+import { TransactionLists } from '../../utils/data';
+import Transaction from '../../components/portfolio.js/Transaction';
+import { useState } from 'react/cjs/react.development';
 
-const Transactions = () => {
+const TransactionsScreen = () => {
     const navigation = useNavigation();
+    const [record, setRecord] = useState(TransactionLists)
+    
+    const renderTransactions = ({ item }) => {
+        return (
+            <Transaction transaction={item} />
+        )
+    }
+    
+    const renderDefaultData = () => {
+        setRecord(TransactionLists);
+    }
+    
+    const filterRecords = (type) => {
+        type = type.toLowerCase();
+        let dataArray;
+        
+        switch (type) {
+            case 'all':
+                // filter then iterate over each item
+                dataArray = TransactionLists
+                setRecord(dataArray)
+                break;
+        
+            case 'purchases':
+                // filter then change state data
+                dataArray = TransactionLists.filter(item => !item.sold)
+                setRecord(dataArray)
+                break;
+        
+            case 'sales':
+                // filter then add to state
+                dataArray = TransactionLists.filter(item => item.sold)
+                setRecord(dataArray)
+                break;
+        
+            default:
+                break;
+        }
+    }
+    
+    useEffect(() => {
+        console.log('opened')
+        renderDefaultData();
+    }, [])
+    
     return (
         <Container>
             <SafeAreaView style={{ flex: 1,}}>
@@ -20,31 +66,47 @@ const Transactions = () => {
                 </View>
                 
                 <ScrollView>
-                    <View style={{ marginHorizontal: 10, }}>
-                        <View style={styles.portfolioSumary}>                    
-                            <View style={styles.portfolioDetails}>
-                                <View style={styles.IconWrap}>
-                                    <Image style={styles.coinIcon} source={require('../../../assets/images/main-new-2.png')} />
+                    <View style={{ paddingHorizontal: 14, marginTop: 35, }}>
+                        <Text style={styles.filterTitle}>Show Transactions by </Text>
+                        <View style={styles.filterWrap}>
+                            <TouchableOpacity style={styles.filterBodyWrap} onPress={() => filterRecords('all')}>
+                                <View>
+                                    <Text style={styles.filterText}>All</Text>                                
                                 </View>
-                                <Text style={styles.smallHeading}>Modibit</Text>
-                                <Text style={styles.portfolioAmount}>$ 242.25</Text>
-                                
-                                <Text style={[styles.smallHeading, {paddingVertical: 3, fontSize: 11, }]}>Gains</Text>
-                                <View style={styles.roiBody}>
-                                    <Text style={styles.roiPercent}>+ 0.36 % </Text>
-                                    <Text style={styles.roiAmount}>+ $9.04</Text>
+                            </TouchableOpacity>                  
+                            <TouchableOpacity style={styles.filterBodyWrap} onPress={() => filterRecords('purchases')}>
+                                <View>                    
+                                    <Text style={styles.filterText}>Purchases</Text>                                
                                 </View>
-                            </View>
+                            </TouchableOpacity>  
+                            <TouchableOpacity style={styles.filterBodyWrap} onPress={() => filterRecords('sales')}>
+                                <View>                    
+                                    <Text style={styles.filterText}>Sales</Text>                                
+                                </View>
+                            </TouchableOpacity>  
                         </View>
-                    </View>
-                            
+                        
+                        <View style={{ marginTop: 10, height: "100%",}}>
+                            <SafeAreaView style={styles.recentTransactions}>
+                                {/* <Text style={styles.transactionTitle}>Recent Transactions</Text> */}
+                                <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
+                                    <FlatList 
+                                        data={record}
+                                        renderItem={renderTransactions}
+                                        keyExtractor={item => item.id}
+                                        contentContainerStyle={{ paddingBottom: 65 }}               
+                                    />
+                                </SafeAreaView>
+                            </SafeAreaView>
+                        </View>
+                    </View>                    
                 </ScrollView>
             </SafeAreaView>
         </Container>
     )
 }
 
-export default Transactions;
+export default TransactionsScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -91,107 +153,31 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         fontFamily: 'SourceSansPro_600SemiBold'
     },
-    portfolioSumary: {
-        // backgroundColor: '#c3841c',
-        // borderRadius: 8,
-        width: '100%',
-        flexBasis: 100,
-        flexDirection: 'column',
+    filterWrap: {
+        flexDirection: 'row',
+    },
+    filterBodyWrap: {
+        flexBasis: 80,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: 35,
+        borderWidth: 1,
+        borderColor: '#c3841c',
+        borderRadius: 3,
+        marginRight: 8,
+        paddingHorizontal: 10,
+        paddingVertical: 7,
     },
-    IconWrap: {
-        backgroundColor: 'rgba(78, 79, 80, 0.3)',
-        width: 57,
-        height: 57,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-    },
-    coinIcon: {
-        width: 35,
-        height: 35,
-    },
-    portfolioDetails: {
-        marginVertical: 15,
-        flexBasis: 100,
-        width: '100%',
-        alignItems: 'center',
-    },
-    smallHeading: {
-        fontSize: 12,
-        textAlign: 'center',
+    filterText: {
         color: '#fff',
-        paddingVertical: 6,
-    },
-    portfolioAmount: {
-        color: '#fff',
-        fontFamily: 'SourceSansPro_700Bold',
-        textAlign: 'center',
-        fontSize: 40,
-        fontWeight: '800',
-        letterSpacing: 1,
-    },
-    roiBody: {
-        flexBasis: 100,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        fontFamily: 'SourceSansPro_400Regular',
-    },
-    roiPercent: {
-        color: '#03b148',
-        fontFamily: 'SourceSansPro_400Regular',
-    },
-    roiAmount: {
-        color: '#fff',
-        fontFamily: 'SourceSansPro_400Regular',
-    },
-    actionButtons: {
-        flexBasis: 40,
-        flexDirection: 'row',
-        justifyContent: "space-around",
-        // marginVertical: 10,
-    },
-    buyWrap: {
-        // flexBasis: auto,
-        flexGrow: 1,
-        justifyContent: 'center', 
-        alignItems: 'center',
-        // backgroundColor: '#fff',
-    },
-    buyBtn: {
-        fontFamily: 'SourceSansPro_400Regular',
-        width: 220,
-        textAlign: 'center',
-        backgroundColor: 'rgba(199, 125, 17, 0.7)',
-        // backgroundColor: 'rgba(78, 79, 80, 0.3)',
-        color: '#f6f5fa',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 10,
-    },
-    sellWrap: {
-        flexGrow: 1,
-        justifyContent: 'center', 
-        alignItems: 'center',
-    },
-    sellBtn: {
-        fontFamily: 'SourceSansPro_400Regular',
-        width: 100,    
-        textAlign: 'center',
-        backgroundColor: 'rgba(78, 79, 80, 0.3)',
-        color: '#f6f5fa',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 10,
+        fontSize: 13,
+        fontFamily: 'SourceSansPro_400Regular'
     },
     details: {
         paddingHorizontal: 10,
         marginVertical: 40,
     },
-    detailstitle: {
+    filterTitle: {
         color: 'rgba(78, 79, 80, 0.98)',
         fontSize: 12.5,
         textTransform: 'uppercase',

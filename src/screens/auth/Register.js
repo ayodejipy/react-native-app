@@ -4,11 +4,34 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
+import { Formik } from 'formik';
+import * as yup from "yup"
+import Spin from '../../components/Spinner/Spinner';
+import { useAuthContext } from '../../Hook/useAuthContext';
 
 const Register = () => {
     const navigation = useNavigation();
-    const [ email, onChangeEmail ] = useState('');
-    const [ password, onChangePassword ] = useState('');
+    const { loading } = useAuthContext()
+        
+    const initialValues = {
+        name: '',
+        phoneNumber: '',
+        email: '',
+        password: '',
+        referralEmail: '',
+    }
+    
+    const signupValidationSchema = yup.object().shape({
+        name: yup.string().required('Name is required'),
+        phoneNumber: yup.string().required('Phone number is required'),
+        email: yup.string().email('Please enter a valid email').required(''),
+        password: yup.string().required('Password is required'),
+        referralEmail: yup.string().email('Please enter a valid email')
+    })
+    
+    const triggerSignupService = () => {
+        
+    }
     
     return (
         <Container>
@@ -32,56 +55,82 @@ const Register = () => {
                         style={{  flexDirection: 'column', height: '100%', }}
                     >
                         <View style={styles.registerPageWrap}>
-                                <View style={styles.formWrapper}>
-                                    <View style={styles.inputWrap}>
-                                        <Text style={styles.label}>Full Name</Text>
-                                        <TextInput 
-                                            style={styles.inputBox}
-                                            placeholder="Full name"
-                                            placeholderTextColor="#828690"
-                                        />
+                            <Formik
+                                validationSchema={signupValidationSchema}
+                                initialValues={initialValues}
+                                onSubmit={ values => {
+                                    // console.log({ values })
+                                    triggerSignupService(values)
+                                }}
+                            >
+                                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                                    <View style={styles.formWrapper}>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Full Name</Text>
+                                            <TextInput 
+                                                style={styles.inputBox}
+                                                placeholder="Full name"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('name')}
+                                                onBlur={handleBlur('name')}
+                                                value={values.name}
+                                            />
+                                        </View>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Phone Number</Text>
+                                            <TextInput 
+                                                style={styles.inputBox}
+                                                placeholder="Phone number"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('phoneNumber')}
+                                                onBlur={handleBlur('phoneNumber')}
+                                                value={values.phoneNumber}
+                                            />
+                                        </View>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Email Address</Text>
+                                            <TextInput 
+                                                style={styles.inputBox}
+                                                keyboardType="email-address"
+                                                placeholder="Email address"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('email')}
+                                                onBlur={handleBlur('email')}
+                                                value={values.email}
+                                            />
+                                        </View>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Password</Text>
+                                            <TextInput 
+                                                style={styles.inputBox} 
+                                                placeholder="*********"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                            />
+                                        </View>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Referrer (optional)</Text>
+                                            <TextInput 
+                                                style={styles.inputBox} 
+                                                placeholder="Referrer's email"
+                                                placeholderTextColor="#828690"
+                                                keyboardType="email-address"
+                                                onChangeText={handleChange('referralEmail')}
+                                                onBlur={handleBlur('referralEmail')}
+                                                value={values.referralEmail}
+                                            />
+                                        </View>
+                                        
+                                        <View style={styles.actionArea}>
+                                            <TouchableOpacity style={styles.signupBtn} onPress={navigation.navigate('Portfolio')}>
+                                                <Text style={styles.buttonText}>{ loading ? <Spin /> : 'Sign up' }</Text>
+                                            </TouchableOpacity>                            
+                                        </View>
                                     </View>
-                                    <View style={styles.inputWrap}>
-                                        <Text style={styles.label}>Phone Number</Text>
-                                        <TextInput 
-                                            style={styles.inputBox}
-                                            placeholder="Phone number"
-                                            placeholderTextColor="#828690"
-                                        />
-                                    </View>
-                                    <View style={styles.inputWrap}>
-                                        <Text style={styles.label}>Email Address</Text>
-                                        <TextInput 
-                                            style={styles.inputBox}
-                                            keyboardType="email-address"
-                                            placeholder="Email address"
-                                            placeholderTextColor="#828690"
-                                        />
-                                    </View>
-                                    <View style={styles.inputWrap}>
-                                        <Text style={styles.label}>Password</Text>
-                                        <TextInput 
-                                            style={styles.inputBox} 
-                                            placeholder="*********"
-                                            placeholderTextColor="#828690"
-                                        />
-                                    </View>
-                                    <View style={styles.inputWrap}>
-                                        <Text style={styles.label}>Referrer (optional)</Text>
-                                        <TextInput 
-                                            style={styles.inputBox} 
-                                            placeholder="Referrer's email"
-                                            placeholderTextColor="#828690"
-                                            keyboardType="email-address"
-                                        />
-                                    </View>
-                                    
-                                    <View style={styles.actionArea}>
-                                        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
-                                            <Text style={styles.buttonText}>Sign up</Text>
-                                        </TouchableOpacity>                            
-                                    </View>
-                                </View>
+                                )}
+                            </Formik>
                             <View style={styles.bottomSpace}></View>
                         </View>
                     </KeyboardAvoidingView>

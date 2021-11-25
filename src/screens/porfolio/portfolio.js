@@ -9,6 +9,14 @@ import { Ionicons } from '@expo/vector-icons';
 const SinglePortfolio = () => {
     const navigation = useNavigation();
     const tabHeight = useBottomTabBarHeight();
+    
+    
+    const loadInput = (typeOfAction) => {
+        navigation.navigate('BuyCoin', {
+            actionType: typeOfAction
+        })
+    }
+    
     return (
         <Container tabHeight={tabHeight}>
             <SafeAreaView style={{ flex: 1,}}>
@@ -40,14 +48,14 @@ const SinglePortfolio = () => {
                         </View>
                     </View>
                     
-                    <SafeAreaView style={styles.actionButtons}>
+                    <SafeAreaView style={[styles.actionButtons, { paddingHorizontal: 8 }]}>
                         <View style={styles.buyWrap}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={ () => loadInput('buy')}>
                                 <Text style={styles.buyBtn}>Buy</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.sellWrap}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={ () => loadInput('sell')}>
                                 <Text style={styles.sellBtn}>Sell</Text>
                             </TouchableOpacity>
                         </View>
@@ -201,11 +209,10 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center', 
         alignItems: 'center',
-        // backgroundColor: '#fff',
     },
     buyBtn: {
         fontFamily: 'SourceSansPro_400Regular',
-        width: 220,
+        width: 210,
         textAlign: 'center',
         backgroundColor: 'rgba(199, 125, 17, 0.7)',
         // backgroundColor: 'rgba(78, 79, 80, 0.3)',
@@ -230,7 +237,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     details: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 18,
         marginVertical: 40,
     },
     detailstitle: {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
@@ -7,18 +7,57 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 
 
-const ChangePassword = () => {
-    const navigation = useNavigation();
+const BuyCoin = ({ route }) => {
+      const navigation = useNavigation();
+      const { actionType } = route.params
+      const [ pageContent, setPageContent ] = useState(null)
     
-    const initialValues = {
-        oldPassword: '',
-        newPassword: ''
-    }
+      console.log({ actionType });
+      const formatTitle = () => {
+         switch (actionType) {
+            
+            case 'buy':
+               setPageContent({
+                  title: 'Buy',
+                  desc: 'Buying Modi-bit is superfast and easy',
+                  buttonText: 'Buy'
+               })
+               break;
+               
+            case 'sell':
+               setPageContent({
+                  title: 'Sell',
+                  desc: 'Some random sell description',
+                  buttonText: 'Sell'
+               })
+               break;
+               
+            case 'self-finance':
+               setPageContent({
+                  title: 'Self Finance',
+                  desc: 'Some random sell description',
+                  buttonText: 'Buy'
+               })
+               break;
+         
+            default:
+               break;
+         }
+      }
     
-    const ValidationSchema = yup.object().shape({
-        oldPassword: yup.string().required(''),
-        newPassword: yup.string().required('Password is required')
-    })
+      const initialValues = {
+         oldPassword: '',
+         newPassword: ''
+      }
+      
+      const ValidationSchema = yup.object().shape({
+         oldPassword: yup.string().required(''),
+         newPassword: yup.string().required('Password is required')
+      })
+    
+      useEffect(() => {
+        formatTitle()
+      }, []);
     
     return (
          <Container>
@@ -29,11 +68,18 @@ const ChangePassword = () => {
                         <Ionicons name="md-close-outline" color="rgba(255, 255, 255, .9)" size={20} />
                      </TouchableOpacity>                 
                   </View>
-                  <Text style={styles.blockTitle}>Change Password</Text>
+                  <Text style={styles.blockTitle}>{ pageContent && pageContent.title }</Text>
                </View>
+               
+               { console.log({ pageContent }) }
                 
                <ScrollView>                  
-                  <View style={{ paddingHorizontal: 12, }}>
+                  <View style={{ paddingHorizontal: 12, marginTop: 35 }}>                     
+                     {/* <View style={{ flex: 1, marginTop: 12 }}>
+                        <Text style={styles.heading}>Quick Purchase</Text>
+                        <Text style={styles.desc}>Buying Modi-bit is superfast and easy</Text>
+                     </View> */}
+                     
                      <KeyboardAvoidingView
                         behavior={Platform.OS === 'ios' ? 'padding' : 0}
                         style={{  flexDirection: 'column', height: '100%', }}
@@ -50,19 +96,7 @@ const ChangePassword = () => {
                                     
                                     <View style={styles.formWrapper}>
                                         <View style={styles.inputWrap}>
-                                            <Text style={styles.label}>Old Password</Text>
-                                            <TextInput 
-                                                style={styles.inputBox}
-                                                placeholder="***********"
-                                                placeholderTextColor="#828690"
-                                                onChangeText={handleChange('oldPassword')}
-                                                onBlur={handleBlur('oldPassword')}
-                                                value={values.oldPassword}
-                                                secureTextEntry
-                                            />
-                                        </View>
-                                        <View style={styles.inputWrap}>
-                                            <Text style={styles.label}>New Password</Text>
+                                            <Text style={styles.label}>Amount (USD)</Text>
                                             <TextInput 
                                                 style={styles.inputBox}
                                                 placeholder="***********"
@@ -70,15 +104,18 @@ const ChangePassword = () => {
                                                 onChangeText={handleChange('newPassword')}
                                                 onBlur={handleBlur('newPassword')}
                                                 value={values.newPassword}
-                                                secureTextEntry
                                             />
                                         </View>
                                         
-                                        <View style={styles.actionArea}>
-                                            <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
-                                                <Text style={styles.buttonText}>Update Password</Text>
-                                            </TouchableOpacity>                            
-                                        </View>
+                                          <View style={{ flex: 1, marginTop: 10 }}>
+                                             <Text style={styles.infoText}>1 modicum = 10,000 modi-bits = 1 room; 1 modi-bit = $1,000</Text>
+                                          </View>
+                                          
+                                          <View style={styles.actionArea}>
+                                             <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Portfolio')}>
+                                                <Text style={styles.buttonText}>{pageContent && pageContent.buttonText}</Text>
+                                             </TouchableOpacity>                            
+                                          </View>
                                     </View>
                                 )}
                             </Formik>
@@ -93,7 +130,7 @@ const ChangePassword = () => {
     )
 }
 
-export default ChangePassword;
+export default BuyCoin;
 
 const styles = StyleSheet.create({
    bottomSpace: {
@@ -137,70 +174,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginRight: 15,
    },
-   editPhotoWrap: {
-      flexBasis: 135,
-      position: 'absolute',
-      right: -12,
-      bottom: 0,
-   },
-   editPhoto: {
-      width: 30,
-      height: 30,
-      backgroundColor: 'rgba(78, 79, 80, 0.97)',
-      color: '#fff',
-      borderRadius: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: 15,
-   },
-   profileBody: {
-       // backgroundColor: '#fff',
-       width: "100%",
-       // flex: 1,
-       flexDirection: 'row',
-       justifyContent: 'center',
-       alignItems: 'center',
-       // width: '100%',
-       paddingTop: 35,
-       paddingHorizontal: 12,
-       position: 'relative',
-       marginBottom: 30,
-      //  borderBottomWidth: 1,
-      //  borderBottomColor: 'rgba(78, 79, 80, 0.3)',
-       paddingBottom: 16,
-   },
-   profileImage: {
-       alignSelf: 'flex-start',
-       alignContent: 'center',
-       width: 90,
-       height: 90,
-       borderRadius: 50,
-       // borderColor: '#fff',
-       // borderWidth: 1,
-   },
-   profileDetails: {
-       width: 200,
-   },
-   helpTextImage: {
-       fontFamily: 'SourceSansPro_400Regular',
-       textAlign: 'center',
-       color: '#f6f5fa',
-   },
-   editWrap: {
-       marginTop: 10,
-   },
-   editBtn: {
-       fontFamily: 'SourceSansPro_400Regular',
-       width: 100,    
-       textAlign: 'center',
-       backgroundColor: 'rgba(75, 241, 149, 0.25)',
-       color: 'rgba(75, 241, 149, 0.7)',
-       paddingVertical: 6,
-       borderRadius: 4,
+   infoText: {
+      color: '#ccc',
+      fontFamily: 'SourceSansPro_400Regular',
+      marginBottom: 10,
    },
    formWrapper: {
       marginVertical: 20,
-  },
+   },
   inputWrap: {
       marginBottom: 14,
   },

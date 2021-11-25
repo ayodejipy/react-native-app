@@ -1,24 +1,47 @@
 import React, { useState, useContext } from 'react'
+import { Formik } from 'formik';
+import * as yup from "yup"
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Animated, StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthContext } from '../../Hook/useAuthContext';
+import { Status } from '../../utils/Enums';
+import Spin from '../../components/Spinner/Spinner';
+
+
 
 const Login = () => {
     const navigation = useNavigation();
-    const [ email, onChangeEmail ] = useState('');
-    const [ password, onChangePassword ] = useState('');
-    const { auth } = useAuthContext();
+    const [errorMessage, setErrorMessage ] = useState('')
+    const { handleLogin, data, loading } = useAuthContext();
     
-    const handleLoginPress = async () => {
-        await auth.handleLogin({
-           username: 'dominn@gmail.com',
-           password: '000000@!!!234',
-        })
-        navigation.navigate('Portfolio')
+    const initialValues = {
+        email: '',
+        password: ''
     }
+    
+    const loginValidationSchema = yup.object().shape({
+        email: yup.string().email('Please enter a valid email').required(''),
+        password: yup.string().required('Password is required')
+    })
+    
+    const triggerLoginService = async (data) => {
+        // construct login data and send to context
+        let res = await handleLogin({
+           username: data.email,
+           password: data.password,
+        })
+        console.log({ res });
+        if(res.status != Status.BAD) {
+            navigation.navigate('Portfolio')
+            return            
+        }
+        setErrorMessage(res && res.data?.error_description);
+    }
+    
+    console.log({ loading });
     
     return (
         <Container>
@@ -35,6 +58,7 @@ const Login = () => {
                 <View style={styles.pageTitleWrap}>
                     <Text style={styles.blockTitle}>Log in</Text>                    
                 </View>
+               {/* { console.log(errorMessage) } */}
                 
                 <ScrollView showsVerticalScrollIndicator={false}>                
                     <KeyboardAvoidingView
@@ -42,38 +66,64 @@ const Login = () => {
                         style={{  flexDirection: 'column', height: '100%', }}
                     >
                         <View style={styles.loginPageWrap}>                    
-                            <View style={styles.formWrapper}>
-                                <View style={styles.inputWrap}>
-                                    <Text style={styles.label}>Email Address</Text>
-                                    <TextInput 
-                                        style={styles.inputBox}
-                                        keyboardType="email-address"
-                                        placeholder="Email address"
-                                        placeholderTextColor="#828690"
-                                    />
-                                </View>
-                                <View style={styles.inputWrap}>
-                                    <Text style={styles.label}>Password</Text>
-                                    <TextInput 
-                                        style={styles.inputBox} 
-                                        placeholder="*********"
-                                        placeholderTextColor="#828690"
-                                    />
-                                </View>
-                                
-                                <View style={styles.loginWrap}>
-                                    {/* <Text style={{ color: '#c2c2c2', marginRight: 2, }}> Do not have an account? </Text> */}                                
-                                    <TouchableOpacity onPress={() => handleLoginPress()}>
-                                        <Text style={styles.loginText}>Forgot Password?</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                
-                                <View style={styles.actionArea}>
-                                    <TouchableOpacity style={styles.signupBtn} onPress={() => handleLoginPress()}>
-                                        <Text style={styles.buttonText}>Log in</Text>
-                                    </TouchableOpacity>                            
-                                </View>
-                            </View>
+                            <Formik
+                                validationSchema={loginValidationSchema}
+                                initialValues={initialValues}
+                                onSubmit={ values => {
+                                    // console.log({ values })
+                                    triggerLoginService(values)
+                                }}
+                            >
+                                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                                        
+                                    <View style={styles.formWrapper}>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Email Address</Text>
+                                            <TextInput 
+                                                style={styles.inputBox}
+                                                keyboardType="email-address"
+                                                placeholder="Email address"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('email')}
+                                                onBlur={handleBlur('email')}
+                                                value={values.email}
+                                            />
+                                        </View>
+                                        <View style={styles.inputWrap}>
+                                            <Text style={styles.label}>Password</Text>
+                                            <TextInput 
+                                                style={styles.inputBox} 
+                                                placeholder="*********"
+                                                placeholderTextColor="#828690"
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                                secureTextEntry
+                                            />
+                                        </View>
+                                        
+                                        <View style={styles.loginWrap}>
+                                            {/* <Text style={{ color: '#c2c2c2', marginRight: 2, }}> Do not have an account? </Text> */}                                
+                                            <TouchableOpacity onPress={() => handleLoginPress()}>
+                                                <Text style={styles.loginText}>Forgot Password?</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        
+                                        <View style={{ paddingTop: 6}}>
+                                            <Text style={{color: 'red', fontSize: 12,}}> { errorMessage } </Text>                    
+                                        </View>
+                                        
+                                        <View style={styles.actionArea}>
+                                            <TouchableOpacity style={styles.signupBtn} onPress={handleSubmit}>
+                                                <Text style={styles.buttonText}>{ loading ? <Spin /> : 'Log in' }</Text>
+                                            </TouchableOpacity>                            
+                                        </View>
+                                        {/* <View style={styles.actionArea}>
+                                            <Spin />                           
+                                        </View> */}
+                                    </View>
+                                )}
+                            </Formik>
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
@@ -97,7 +147,7 @@ const styles = StyleSheet.create({
         height: '80%',
     },
     bottomSpace: {
-        height: 180,
+        height: 140,
     },
     blockHeading: {
         // backgroundColor: '#fff',

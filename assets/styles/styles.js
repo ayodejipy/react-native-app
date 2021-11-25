@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native'
 import { StatusBar } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 

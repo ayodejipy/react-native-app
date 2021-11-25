@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 // Screens
 import Portfolio from '../screens/porfolio';
 import SinglePortfolio from '../screens/porfolio/portfolio';
-import Transactions from '../screens/porfolio/Transactions';
+import TransactionsScreen from '../screens/porfolio/Transactions'
 import Profile from '../screens/user';
 import EditProfile from '../screens/user/EditProfile';
 import { AntDesign, Feather } from '@expo/vector-icons';
@@ -65,7 +65,7 @@ const AppTabNavigator = () => {
                         )
                     }} 
                 />
-                <Tab.Screen name="Transactions" component={Transactions} 
+                <Tab.Screen name="Transactions" component={TransactionsScreen} 
                     options={{
                         tabBarIcon: ({ focused }) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', }}>
