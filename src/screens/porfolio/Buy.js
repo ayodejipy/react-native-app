@@ -11,8 +11,8 @@ const BuyCoin = ({ route }) => {
       const navigation = useNavigation();
       const { actionType } = route.params
       const [ pageContent, setPageContent ] = useState(null)
-    
-      console.log({ actionType });
+      // console.log({ actionType });
+      
       const formatTitle = () => {
          switch (actionType) {
             
@@ -71,7 +71,6 @@ const BuyCoin = ({ route }) => {
                   <Text style={styles.blockTitle}>{ pageContent && pageContent.title }</Text>
                </View>
                
-               { console.log({ pageContent }) }
                 
                <ScrollView>                  
                   <View style={{ paddingHorizontal: 12, marginTop: 35 }}>                     
@@ -99,7 +98,8 @@ const BuyCoin = ({ route }) => {
                                             <Text style={styles.label}>Amount (USD)</Text>
                                             <TextInput 
                                                 style={styles.inputBox}
-                                                placeholder="***********"
+                                                keyboardType="number-pad"
+                                                placeholder="$1000"
                                                 placeholderTextColor="#828690"
                                                 onChangeText={handleChange('newPassword')}
                                                 onBlur={handleBlur('newPassword')}
@@ -108,7 +108,8 @@ const BuyCoin = ({ route }) => {
                                         </View>
                                         
                                           <View style={{ flex: 1, marginTop: 10 }}>
-                                             <Text style={styles.infoText}>1 modicum = 10,000 modi-bits = 1 room; 1 modi-bit = $1,000</Text>
+                                             <Text style={styles.infoText}>1 modicum = 10,000 </Text>
+                                             <Text style={styles.infoText}>modi-bits = 1 room; 1 modi-bit = $1,000</Text>
                                           </View>
                                           
                                           <View style={styles.actionArea}>

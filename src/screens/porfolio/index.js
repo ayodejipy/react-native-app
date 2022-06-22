@@ -15,8 +15,10 @@ const Portfolio = () => {
     const tabHeight = useBottomTabBarHeight();
     const navigation = useNavigation();
     const [greeting, setGreeting ] = useState("Wash your hands, use your mask!")
+    const [transactions, setTransactions ] = useState(null)
     const { userData } = useAuthContext();
-    console.log(userData);
+    
+    // console.log(userData);
     
     // scrolling home 
     const slideRef = useRef(null)
@@ -49,6 +51,12 @@ const Portfolio = () => {
         )
     }
     
+    const getLatestTransactions = () => {
+        let data = [...TransactionLists]
+        data = data.splice(0, 8)
+        setTransactions(data)
+    }
+    
     const loadInput = (typeOfAction) => {
         navigation.navigate('BuyCoin', {
             actionType: typeOfAction
@@ -56,6 +64,7 @@ const Portfolio = () => {
     }
     
     useEffect(() => {
+        getLatestTransactions();
         handleTimeReport()
     }, [])
     
@@ -114,10 +123,10 @@ const Portfolio = () => {
                         <Text style={styles.transactionTitle}>Recent Transactions</Text>
                         <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
                             <FlatList 
-                                data={TransactionLists}
+                                data={transactions}
                                 renderItem={renderTransactions}
                                 keyExtractor={item => item.id}
-                                contentContainerStyle={{ paddingBottom: 65 }}               
+                                contentContainerStyle={{ paddingBottom: 95 }}               
                             />
                         </SafeAreaView>
                     </SafeAreaView>

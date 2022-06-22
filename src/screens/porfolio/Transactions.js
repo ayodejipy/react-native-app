@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, StyleSheet, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../../assets/styles/styles';
 import { TransactionLists } from '../../utils/data';
 import Transaction from '../../components/portfolio.js/Transaction';
-import { useState } from 'react/cjs/react.development';
 
 const TransactionsScreen = () => {
     const navigation = useNavigation();
@@ -49,13 +48,13 @@ const TransactionsScreen = () => {
     }
     
     useEffect(() => {
-        console.log('opened')
+        // console.log('opened')
         renderDefaultData();
     }, [])
     
     return (
         <Container>
-            <SafeAreaView style={{ flex: 1,}}>
+            <SafeAreaView style={{ flexGrow: 1 }}>
                 <View style={styles.blockHeading}>
                     {/* <View style={styles.backBtnWrap}>
                         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
@@ -65,9 +64,9 @@ const TransactionsScreen = () => {
                     <Text style={styles.blockTitle}>Transactions</Text>
                 </View>
                 
-                <ScrollView>
+                {/* <ScrollView> */}
                     <View style={{ paddingHorizontal: 14, marginTop: 35, }}>
-                        <Text style={styles.filterTitle}>Show Transactions by </Text>
+                        <Text style={styles.filterTitle}>Show Transactions </Text>
                         <View style={styles.filterWrap}>
                             <TouchableOpacity style={styles.filterBodyWrap} onPress={() => filterRecords('all')}>
                                 <View>
@@ -86,21 +85,21 @@ const TransactionsScreen = () => {
                             </TouchableOpacity>  
                         </View>
                         
-                        <View style={{ marginTop: 10, height: "100%",}}>
+                        <View style={{ marginTop: 15, height: "86%",}}>
                             <SafeAreaView style={styles.recentTransactions}>
                                 {/* <Text style={styles.transactionTitle}>Recent Transactions</Text> */}
-                                <SafeAreaView style={{ marginVertical: 20, flexBasis: 200, }}>
+                                <SafeAreaView style={{ marginVertical: 20 }}>
                                     <FlatList 
                                         data={record}
                                         renderItem={renderTransactions}
                                         keyExtractor={item => item.id}
-                                        contentContainerStyle={{ paddingBottom: 65 }}               
+                                        contentContainerStyle={{ paddingBottom: 175 }}
                                     />
                                 </SafeAreaView>
                             </SafeAreaView>
                         </View>
                     </View>                    
-                </ScrollView>
+                {/* </ScrollView> */}
             </SafeAreaView>
         </Container>
     )
@@ -109,11 +108,6 @@ const TransactionsScreen = () => {
 export default TransactionsScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // backgroundColor: '#fff',
-        color: '#fff',
-    },
     text: {
       fontWeight: "600",
       fontSize: 24,
@@ -182,20 +176,5 @@ const styles = StyleSheet.create({
         fontSize: 12.5,
         textTransform: 'uppercase',
         paddingBottom: 16,
-    },
-    detailsContainer: {
-        // backgroundColor: '#fff',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(78, 79, 80, 0.3)',
-        marginVertical: 8,
-    },
-    detailsHeading: {
-        color: 'rgba(78, 79, 80, 0.98)',
-    },
-    detailsText: {
-        color: 'rgba(79, 80, 82, 1)',
     },
 })
